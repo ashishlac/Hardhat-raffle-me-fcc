@@ -40,9 +40,7 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
         networkConfig[chainId]["keepersUpdateInterval"],
         networkConfig[chainId]["raffleEntranceFee"],
         networkConfig[chainId]["callbackGasLimit"],
-    ];
-
-
+    ]
     const raffle = await deploy("Raffle", {
         from: deployer,
         args: arguments,
@@ -51,10 +49,10 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
     })
 
     // Verify the deployment
-    // if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
-    //     log("Verifying...")
-    //     await verify(raffle.address, arguments)
-    // }
+    if (!developmentChains.includes(network.name) && process.env.ETHERSCAN_API_KEY) {
+        log("Verifying...")
+        await verify(raffle.address, arguments)
+    }
 
     log("Enter lottery with command:")
     const networkName = network.name == "hardhat" ? "localhost" : network.name
